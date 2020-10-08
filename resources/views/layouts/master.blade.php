@@ -56,35 +56,35 @@
           {{-- @if($user->role !== 'Admin' || $user->role !=='superadmin') --}}
           @if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin")
           <li>
-            {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <!-- {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
               Launch demo modal
-            </button> --}}
+            </button> --}} -->
             <a href="##"  data-toggle="modal" data-target="#exampleModal">
               <i class="now-ui-icons design_app"></i>
               <p>Add new user</p>
             </a>
-            {{-- <a href="##"  data-toggle="modal" data-target="#exampleModal">
+            <!-- {{-- <a href="##"  data-toggle="modal" data-target="#exampleModal">
               <i class="now-ui-icons design_app"></i>
               <p>Add new user</p>
-            </a> --}}
+            </a> --}} -->
           </li>
           @endif
 
-          @if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin")
+          <!-- @if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin")
           <li>
             <a href="##"  data-toggle="modal" data-target="#addpatientmodal">
               <i class="now-ui-icons education_atom"></i>
               <p>Add patient record</p>
             </a>
           </li>
-          @endif
+          @endif -->
 
-          <!-- <li>
+          <li>
             <a href="/Patientrecord" >
               <i class="now-ui-icons education_atom"></i>
               <p>view patient record</p>
             </a>
-          </li> -->
+          </li>
 
          
         </ul>

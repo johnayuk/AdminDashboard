@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PatientController;
 use App\Models\User;
+use App\Models\Patientrecord;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +19,7 @@ use App\Models\User;
 */
 Route::get('/', [UserController::class, 'index']);
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/Patientrecord',[UserController::class,'patientrecord' ])->name('Patientrecord');
+Route::middleware(['auth:sanctum', 'verified'])->get('/Patientrecord',[PatientController::class,'patientrecord' ])->name('Patientrecord');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard',[UserController::class,'dashboard' ])->name('dashboard');
 
@@ -25,8 +27,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard',[UserControlle
 //     return view('register');
 
 // })->name('register');
+Route::middleware(['auth:sanctum', 'verified'])->put('/update-patient/{id}',[PatientController::class, 'patientupdate'])->name('update-patient');
+
+Route::middleware(['auth:sanctum', 'verified'])->delete('/delete-patient/{id}',[PatientController::class, 'deleterecord'])->name('delete-patient');
+
 Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('/register',[UserController::class, 'create'])->name('register');
-Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('/patients',[UserController::class, 'createpatients'])->name('patients');
+
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('/patients',[PatientController::class, 'createpatients'])->name('patients');
 // Route::middleware(['auth:sanctum', 'verified'])->post('/register',[UserController::class, 'create'])->name('register');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/role-edit/{id}',[UserController::class, 'edit'])->name('role-edit');

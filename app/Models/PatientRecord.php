@@ -11,6 +11,8 @@ class PatientRecord extends Model
     protected $fillable = [
         'patient_name',
         'patient_condition',
+        'patient_ward',
+        'doctor_assigned'
         
     ];
 }

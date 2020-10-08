@@ -17,6 +17,8 @@ class CreatePatientRecordsTable extends Migration
             $table->id();
             $table->string('patient_name');
             $table->string('patient_condition');
+            $table->string('patient_ward');
+            $table->string('doctor_assigned');
             // $table->string('time');
             $table->timestamps();
         });

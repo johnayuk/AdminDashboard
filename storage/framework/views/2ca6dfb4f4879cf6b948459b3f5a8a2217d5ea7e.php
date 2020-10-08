@@ -56,30 +56,30 @@
           
           <?php if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin"): ?>
           <li>
-            
+            <!--  -->
             <a href="##"  data-toggle="modal" data-target="#exampleModal">
               <i class="now-ui-icons design_app"></i>
               <p>Add new user</p>
             </a>
-            
+            <!--  -->
           </li>
           <?php endif; ?>
 
-          <?php if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin"): ?>
+          <!-- <?php if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin"): ?>
           <li>
             <a href="##"  data-toggle="modal" data-target="#addpatientmodal">
               <i class="now-ui-icons education_atom"></i>
               <p>Add patient record</p>
             </a>
           </li>
-          <?php endif; ?>
+          <?php endif; ?> -->
 
-          <!-- <li>
+          <li>
             <a href="/Patientrecord" >
               <i class="now-ui-icons education_atom"></i>
               <p>view patient record</p>
             </a>
-          </li> -->
+          </li>
 
          
         </ul>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\PatientRecord;
 use Illuminate\Support\Facades\Auth;
+use App\http\Requests\UserRequest;
 use function redirect;
 
 use Illuminate\Support\Facades\Hash;
@@ -20,10 +21,6 @@ public function index(){
     }
 
 
-    // public function patientrecord(){ 
-       
-    //     return view('PatientRecord');
-    //     }
 
 
     public function dashboard(){ 
@@ -33,19 +30,21 @@ public function index(){
         if ($user->role === 'Admin' || $user->role === 'superadmin') {
             $userlist = User::all();
         }
-        return view('dashboard', compact(['user', 'userlist',  'records']));
+        return view('dashboard', compact(['user', 'userlist','records']));
         }
     
 
 
-public function create(Request $input)
+public function create(UserRequest $request)
     {
-            $input->validate([
-                'name' => ['required', 'string', 'max:255',],
-                'role' => ['string', 'max:100'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:5'],
-            ]);
+            // $input->validate([
+            //     'name' => ['required', 'string', 'max:255',],
+            //     'role' => ['string', 'max:100'],
+            //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            //     'password' => ['required', 'string', 'min:5'],
+            // ]);
+
+             $input=(object) $request;
 
             $user_created = User::create([
                 'name' => $input['name'],
@@ -62,41 +61,41 @@ public function create(Request $input)
 
 
 
-    public function createpatients(Request $input){
-        $input->validate([
-            'patient_name' => ['required', 'string', 'max:255'],
-            'patient_condition' => ['string', 'max:100'],
-            // 'added_by' => ['required'],
-        ]);
+    // public function createpatients(Request $input){
+    //     $input->validate([
+    //         'patient_name' => ['required', 'string', 'max:255'],
+    //         'patient_condition' => ['string', 'max:100'],
+    //         // 'added_by' => ['required'],
+    //     ]);
     
-        $record_created = PatientRecord::create([
-            'patient_name' => $input['patient_name'],
-            'patient_condition' => $input['patient_condition'],
-            // 'added_by' => $input['added_by'],
-        ]);
-        if (!$record_created) {
-            return redirect()->back()->withErrors(['error' => 'an error occurred : record cannot be created']);
-        }
+    //     $record_created = PatientRecord::create([
+    //         'patient_name' => $input['patient_name'],
+    //         'patient_condition' => $input['patient_condition'],
+    //         // 'added_by' => $input['added_by'],
+    //     ]);
+    //     if (!$record_created) {
+    //         return redirect()->back()->withErrors(['error' => 'an error occurred : record cannot be created']);
+    //     }
     
-        return redirect('/dashboard')->withErrors(['status' => 'record created successfully']);
-    }
+    //     return redirect('/dashboard')->withErrors(['status' => 'record created successfully']);
+    // }
 
 
 
-public function edit(Request $request,$id){
-    $userlist = User::findorFail($id);
-    return view('edituser')->with('users',$userlist);
+// public function edit(Request $request,$id){
+//     $userlist = User::findorFail($id);
+//     return view('edituser')->with('users',$userlist);
 
-}
+// }
 
-public function update(Request $request,$id){
+public function update(UserRequest $request,$id){
    
   
-$this->validate($request,[
-    'name'=>'required',
-    'email'=>'required',
-    'role'=>'required'
-]);
+// $this->validate($request,[
+//     'name'=>'required',
+//     'email'=>'required',
+//     'role'=>'required'
+// ]);
     $user = User::find($id);
    
     //    $user->name = $request->input('name');
@@ -105,11 +104,12 @@ $this->validate($request,[
    
 
 
-   $user->update(["name" => $request['name'], "email"=> $request['email'], "role"=> $request['role'] 
-   
-   ]);
+//    $user->update(["name" => $request['name'], "email"=> $request['email'], "role"=> $request['role'] ]);
+$input = $request -> all();
 
-   return redirect('/dashboard')->withErrors(['status' => 'record successfully successfully']);
+$user->fill($input)->save();
+
+   return redirect('/dashboard')->withErrors(['status' => 'record successfully updated']);
 }
 
 
@@ -125,5 +125,7 @@ public function delete(Request $request, $id){
 
     return redirect('/dashboard')->with('status','Your Data is deleted');
 }
+
+
 
  }
