@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\PatientRecord;
 use Illuminate\Support\Facades\Auth;
 use App\http\Requests\UserRequest;
 use function redirect;
+use save;
+use image;
+use Validator;
 
-use Illuminate\Support\Facades\Hash;
+
 
 
 
@@ -35,27 +39,64 @@ public function index(){
     
 
 
-public function create(UserRequest $request)
+public function create(Request $request)
     {
-            // $input->validate([
-            //     'name' => ['required', 'string', 'max:255',],
-            //     'role' => ['string', 'max:100'],
-            //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            //     'password' => ['required', 'string', 'min:5'],
+        $validator = Validator::make($request->all(),[
+            'name'=>'required',
+            'email'=>'required',
+            'role'=>'required',
+            'image'=>'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'password'=>'required'
+        ]);
+            if($validator->fails()){
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
+
+      $user = new User();
+      $user->name = $request->input('name');
+      $user->email = $request->input('email');
+      $user->role = $request->input('role');
+      $user->password = Hash::make($request->password);
+    //   $user->password = $request->input('password');
+
+      if ($request->hasFile('image')){
+          $image = $request->file('image');
+          $extension = $image->getClientOriginalExtension();
+          $filename = time().'.'.$extension;
+          $image->move('uploads/image',$filename);
+          $user->image = $filename;
+
+          
+        //   Image::make($image)->resize(300,300)->save(public_path(). '/uploads/image/'.$filename);
+
+        //   $user = Auth::user();
+        //   $user->image = $filename;
+      }else{
+          return $request;
+          $user->image='';
+      }
+      $user->save();
+      return redirect('/dashboard')->withErrors(['status' => 'user created successfully']);
+        
+
+            //  $input=(object) $request;
+
+            // $user_created = User::create([
+            //     'name' => $input['name'],
+            //     'email' => $input['email'],
+            //     'role' => $input['role'],
+                
+          
+
+      
+
+                
+            //     'password' => Hash::make($input['password']),
             // ]);
-
-             $input=(object) $request;
-
-            $user_created = User::create([
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'role' => $input['role'],
-                'password' => Hash::make($input['password']),
-            ]);
-            if (!$user_created) {
-                return redirect()->back()->withErrors(['error' => 'an error occurred : user cannot be created']);
-            }
-            return redirect('/dashboard')->withErrors(['status' => 'user created successfully']);
+            // if (!$user_created) {
+            //     return redirect()->back()->withErrors(['error' => 'an error occurred : user cannot be created']);
+            // }
+            // return redirect('/dashboard')->withErrors(['status' => 'user created successfully']);
     }
     
 

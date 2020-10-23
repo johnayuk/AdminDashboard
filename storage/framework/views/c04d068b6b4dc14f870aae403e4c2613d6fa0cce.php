@@ -122,7 +122,7 @@
                                           </div>
                                        <?php if(Auth::check() && Auth::user()->role  == "Admin"|| Auth::user()->role  == "superadmin"): ?>
                                         <button type='button' class="btn btn-danger" data-toggle="modal" data-target="#delete_patient<?php echo e($record->id); ?>">Delete</button>
-                                       <?php endif; ?>
+                                        <?php endif; ?>
                               </td>
 
                             </tr>

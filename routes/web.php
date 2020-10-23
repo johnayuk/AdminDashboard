@@ -43,4 +43,5 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/update-user/{id}',[UserCo
 Route::middleware(['auth:sanctum', 'verified'])->delete('/delete-user/{id}',[UserController::class, 'delete'])->name('delete-user');
 
 
+
 // Route::post('/patients','RecordsModelController@createpatients' );

@@ -19,6 +19,7 @@ class UserTable extends Seeder
             'name' => 'Admin',
             'email' => 'test@test.com',
             'password' => Hash::make('password'),
+             'image' => '1603290776.jpg',
             'role' => 'superadmin'
         ]);
     }

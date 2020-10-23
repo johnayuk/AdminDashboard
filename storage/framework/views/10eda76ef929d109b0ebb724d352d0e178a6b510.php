@@ -12,24 +12,22 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+             
+           
             <?php if(Route::has('login')): ?>
-                <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav ml-auto">
-                        <?php if(auth()->guard()->check()): ?>
+            <div class="top-right links">
+                <?php if(auth()->guard()->check()): ?>
+                    <a href="<?php echo e(url('/home')); ?>">Home</a>
+                <?php else: ?>
+                    <a href="<?php echo e(route('login')); ?>">Login</a>
 
-                            <li class="nav-item active">
-                                <a class="nav-link" href="<?php echo e(url('/dashboard')); ?>" >Dashboard <span class="sr-only">(current)</span></a>
-                            </li>
-                        <?php else: ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?php echo e(route('login')); ?>">Login</a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
-
-        </div>
+                    <?php if(Route::has('register')): ?>
+                        <a href="<?php echo e(route('register')); ?>">Register</a>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+       
         </nav>
                     
 

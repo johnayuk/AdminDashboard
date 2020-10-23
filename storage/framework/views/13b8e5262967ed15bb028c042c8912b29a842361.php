@@ -22,7 +22,7 @@
           </button>
         </div>
         <div class="modal-body">
-                <form method="POST" action="<?php echo e(route('register')); ?>">
+                <form method="POST" enctype="multipart/form-data" files=true action="<?php echo e(route('register')); ?>">
                       <?php echo csrf_field(); ?>
                       <!-- <?php echo method_field('PUT'); ?> -->
                       <h3 class="font-weight-light">Register User</h3>
@@ -167,6 +167,13 @@
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?> 
                       </div>
+
+                      
+                      <div class="form-group">
+                            <label class="contol-label">choose file</label>
+                            <input type="file" name="image" class="form-control" id="image">
+                    </div>
+
                       </div>
                       <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -213,6 +220,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Image</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                                 <tbody>
@@ -223,6 +231,7 @@
                                     <td><?php echo e($user->name); ?></td>
                                     <td><?php echo e($user->email); ?></td>
                                     <td><?php echo e($user->role); ?></td>
+                                 <td><img src="<?php echo e(asset('uploads/image/'.$user->image)); ?>" alt="" width="100px"; height="100px" style="border-radius: 60px"></td>
                                     <td>
                     <!-- Modal -->
               <div class="modal fade" id="exampleModal<?php echo e($user->id); ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -308,9 +317,43 @@
   </div>
   <?php endif; ?>
  
+  
+
+
   <?php if(Auth::check() && Auth::user()->role  == "doctor"|| Auth::user()->role  == "nurse"||Auth::user()->role== "worker"||Auth::user()->role == "patient"): ?>
-  <h1 class="mt-4" style="text-align:center">You are not allow to view this page!</h1>
-  <?php endif; ?>
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header">
+                  <h4 class="card-title"> Active Users</h4>
+                 </div>
+                 <div class="card-body">
+                     <div class="table-responsive">
+                         <table class="table" id="datatable">
+                             <thead class=" text-primary">
+                                 <th>Name</th>
+                                 <th>Email</th>
+                                 <th>Role</th>
+                                 <tbody>
+                                 
+                                  <tr>
+                                     <td><?php echo e(Auth::user()->name); ?></td>
+                                     <td><?php echo e(Auth::user()->email); ?></td>
+                                     <td><?php echo e(Auth::user()->role); ?></td>
+                                  </tr>
+                                 
+               </tbody>
+             </table>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   <?php endif; ?>
+
+
+
+
 <?php $__env->stopSection(); ?>
 
 

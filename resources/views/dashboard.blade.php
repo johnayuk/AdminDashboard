@@ -22,7 +22,7 @@
           </button>
         </div>
         <div class="modal-body">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" enctype="multipart/form-data" files=true action="{{ route('register') }}">
                       @csrf
                       <!-- @method('PUT') -->
                       <h3 class="font-weight-light">Register User</h3>
@@ -57,6 +57,13 @@
                           <x-jet-label value="{{ __('Confirm Password') }}" />
                           <x-jet-input class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
                       </div>
+
+                      
+                      <div class="form-group">
+                            <label class="contol-label">choose file</label>
+                            <input type="file" name="image" class="form-control" id="image">
+                    </div>
+
                       </div>
                       <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -103,6 +110,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Image</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                                 <tbody>
@@ -113,6 +121,7 @@
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->role}}</td>
+                                 <td><img src="{{asset('uploads/image/'.$user->image)}}" alt="" width="100px"; height="100px" style="border-radius: 60px"></td>
                                     <td>
                     <!-- Modal -->
               <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -198,9 +207,45 @@
   </div>
   @endif
  
-  @if(Auth::check() && Auth::user()->role  == "doctor"|| Auth::user()->role  == "nurse"||Auth::user()->role== "worker"||Auth::user()->role == "patient")
+  {{-- @if(Auth::check() && Auth::user()->role  == "doctor"|| Auth::user()->role  == "nurse"||Auth::user()->role== "worker"||Auth::user()->role == "patient")
   <h1 class="mt-4" style="text-align:center">You are not allow to view this page!</h1>
-  @endif
+  @endif --}}
+
+
+  @if(Auth::check() && Auth::user()->role  == "doctor"|| Auth::user()->role  == "nurse"||Auth::user()->role== "worker"||Auth::user()->role == "patient")
+  <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header">
+                  <h4 class="card-title"> Active Users</h4>
+                 </div>
+                 <div class="card-body">
+                     <div class="table-responsive">
+                         <table class="table" id="datatable">
+                             <thead class=" text-primary">
+                                 <th>Name</th>
+                                 <th>Email</th>
+                                 <th>Role</th>
+                                 <tbody>
+                                 {{-- @foreach ($userlist as $user) --}}
+                                  <tr>
+                                     <td>{{ Auth::user()->name }}</td>
+                                     <td>{{ Auth::user()->email }}</td>
+                                     <td>{{ Auth::user()->role }}</td>
+                                  </tr>
+                                 {{-- @endforeach --}}
+               </tbody>
+             </table>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+   @endif
+
+
+
+
 @endsection
 
 

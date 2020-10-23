@@ -12,24 +12,43 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            @if (Route::has('login'))
+             {{-- @if (Route::has('login'))
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav ml-auto">
                         @auth
 
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ url('/dashboard') }}" >Dashboard <span class="sr-only">(current)</span></a>
-                            </li>
-                        @else
+                            </li> 
+                        @else 
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">Login</a>
                             </li>
+                        @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a href='/register' " >register</a>
+                            
+                        </li>
                         @endif
+                        @endauth
                     </ul>
                 </div>
-            @endif
+            @endif  --}}
+           
+            @if (Route::has('login'))
+            <div class="top-right links">
+                @auth
+                    <a href="{{ url('/home') }}">Home</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
 
-        </div>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}">Register</a>
+                    @endif
+                @endauth
+            </div>
+        @endif
+       
         </nav>
                     {{-- @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
